@@ -1,0 +1,6 @@
+__pycache__
+*.cache
+*DS_Store
+*.py[cod]
+*.ipynb_checkpoints/
+.python-version
