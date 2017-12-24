@@ -1,0 +1,21 @@
+## Overview
+A base setup template for using Docker at GitHub.
+
+## Possible changes needed
+### Dockerfile
+* Check the version of Python at the top
+* In the Dockerfile, change `src/` to top-level project directory
+
+### script/app-env
+* Change `DOCKER_IMAGE` name to match your repo name (line 10)
+* Change `appdir:/src` to `appdir:/your-top-dir` (line 12)
+
+### script/bootstrap-docker
+* Change the final name to your repo name (line 7)
+
+### script/test
+* Change the `/src` to your top-level project directory (line 8)
+
+### Other
+* Load `requirements.txt` with what you need
+* Don't forget to copy over the `.gitignore` file
