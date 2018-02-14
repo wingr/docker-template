@@ -1,6 +1,10 @@
+# Basic
 __pycache__
 *.cache
 *DS_Store
 *.py[cod]
 *.ipynb_checkpoints/
 .python-version
+
+# Project specific
+outfile.txt
