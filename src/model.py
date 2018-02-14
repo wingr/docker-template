@@ -3,8 +3,9 @@ Implements a basic example class.
 """
 
 class Example:
-    def __init__(self, message):
-        self.message = message
+    def __init__(self, outfile):
+        self.outfile = outfile
 
     def run(self):
-        print(self.message)
+        with open(self.outfile, 'wt') as f:
+            f.write('Hello World\n')

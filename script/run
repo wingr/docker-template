@@ -11,7 +11,7 @@ from src.model import Example
 
 parser = argparse.ArgumentParser(description="""
    This is an example script for running a model from within Docker.""")
-parser.add_argument('--output', type=str, default='/my/example/path',
+parser.add_argument('--output', type=str, default='output.txt',
                     help="""An output file path for our example""")
 args = parser.parse_args()
 

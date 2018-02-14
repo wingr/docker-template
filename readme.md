@@ -1,5 +1,5 @@
 ## Overview
-A base setup template for using Docker at GitHub.
+A base project setup template for using Docker for a Python project.
 
 ## Possible changes needed
 #### Dockerfile
