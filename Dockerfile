@@ -1,5 +1,5 @@
 FROM python:3.6.3
-MAINTAINER @wingr <wingr@github.com>
+MAINTAINER @wingr
 
 # send SIGQUIT to stop container
 STOPSIGNAL SIGQUIT
