@@ -10,7 +10,7 @@ A base project setup template for using Docker for a Python project.
 * Change `DOCKER_IMAGE` name to match your repo name (line 10)
 * Change `appdir:/src` to `appdir:/your-top-dir` (line 12)
 
-#### script/bootstrap-docker
+#### script/bootstrap
 * Change the final name to your repo name - make sure to leave a space between the repo name and the final period (line 7)
 
 #### script/run
@@ -28,7 +28,8 @@ A base project setup template for using Docker for a Python project.
 * Don't forget to copy over the `.gitignore` and `.dockerignore` file
 
 ## Setup
-To create the Docker container, run `$ script/bootstrap-docker`
+1. Clone repository
+2. To create the Docker container, run `$ script/bootstrap`
 
 ## Running applications
 * The design of this setup is to allow for CLI by using the `script/run` file as the entry point into the application. Given this setup, to run you call, `script/app-env script/run` plus any command line arguments. The `script/app-env` part puts you into the Docker container's environment, and the `script/run` part is the entry point into the application as mentioned above.
