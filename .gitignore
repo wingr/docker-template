@@ -7,4 +7,4 @@ __pycache__
 .python-version
 
 # Project specific
-outfile.txt
+output.txt
