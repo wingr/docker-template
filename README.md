@@ -13,6 +13,9 @@ A base project setup template for using Docker for a Python project.
 #### script/bootstrap
 * Change the final name to your repo name - make sure to leave a space between the repo name and the final period (line 7)
 
+#### script/cibuild-verify-image
+No changes needed
+
 #### script/run
 * Change the structure of this file to call your actual application.
 * The path insertion on line 7 allows you to import your modules from the `src/` directory (or whatever you end up calling it).
