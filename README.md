@@ -34,7 +34,8 @@ No changes needed
 
 ## Setup
 1. Clone repository
-2. To create the Docker container, run `$ script/bootstrap`
+2. To create the Docker container, run `script/bootstrap`
+3. Test that the container is setup correctly by running , `script/app-env pytest tests/test_docker_setup.py`
 
 ## Running applications
 * The design of this setup is to allow for CLI by using the `script/run` file as the entry point into the application. Given this setup, to run you call,
