@@ -1,10 +1,10 @@
-# Basic
+# General
 __pycache__
+.pytest_cache/
 *.cache
 *DS_Store
 *.py[cod]
 *.ipynb_checkpoints/
-.python-version
 
 # Project specific
-output.txt
+tests/docker_example.txt
