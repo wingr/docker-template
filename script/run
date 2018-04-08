@@ -1,18 +1,14 @@
 #!/usr/bin/env python
 import os
 import sys
-import argparse
-import platform
 
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
-from tests.example_model import Example 
+from tests.test_docker_setup import TestDockerSetup
 
-def run_example_model():
-    outfile = './tests/docker_example.txt'
-    ex_model = Example(outfile)
-    ex_model.run()
-    print('Inside Docker using Python version {}'.format(platform.python_version()))
-    print('Docker setup correctly, see "Hello World" in {}'.format(outfile))
+def run_test_python_class():
+    ex_model = TestDockerSetup()
+    expected_python = ex_model.get_expected_python_version()
+    print('Inside Docker using {}'.format(expected_python))
 
-run_example_model()
+run_test_python_class()
