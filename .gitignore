@@ -5,6 +5,3 @@ __pycache__
 *DS_Store
 *.py[cod]
 *.ipynb_checkpoints/
-
-# Project specific
-tests/docker_example.txt
