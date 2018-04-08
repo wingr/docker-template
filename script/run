@@ -1,4 +1,18 @@
 #!/usr/bin/env python
+"""
+The design of this setup template is to allow for CLI by using the `script/run` 
+file as the entry point into the application. Given this setup, you would call,
+
+    * `$ script/app-env script/run` plus any command line arguments.
+    * The `script/app-env` part puts you into the Docker container's environment, 
+      and the `script/run` part is the entry point into the application as 
+      mentioned above.
+
+The code below is just an example and uses the `tests/test_docker_setup` class
+to illustrate how you could run another module from within the project. Normally
+this file would contain imports from the `src/` directory and essentially contain,
+and run, the `main()` method of your application.
+"""
 import os
 import sys
 
