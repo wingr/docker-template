@@ -28,7 +28,8 @@ class TestDockerSetup():
         """Read expected pip packages from requirements.txt file."""
         with open('requirements.txt', 'rt') as f:
             lines = f.readlines()
-        return ''.join(lines)
+        expected_pip_packages = [elem.lower().strip() for elem in lines]
+        return expected_pip_packages
 
     def print_pip_packages(self):
         """Print pip packages from within the container."""
@@ -43,8 +44,17 @@ class TestDockerSetup():
         assert out.strip() == expected
 
     def test_docker_packages(self, capfd):
-        """Fail if container's pip packages don't match requirements.txt."""
-        expected = self.get_expected_pip_packages()
+        """Fail if container's pip packages don't match requirements.txt.
+        
+        The full set of packages listed within the container with `$ pip freeze`
+        is the superset of the packages listed in the requirements.txt file
+        since some packages installed from the `requirements.txt` file require
+        other packages as dependencies, which are also installed. This is the
+        reason we have to use the `in` syntax.
+        """
+        expected_pip_packages_ls = self.get_expected_pip_packages()
         self.print_pip_packages()
         out, _ = capfd.readouterr()
-        assert out == expected
+        container_pip_packages_ls = [elem.lower() for elem in out.split('\n')]
+        for package in expected_pip_packages_ls:
+            assert package in container_pip_packages_ls
