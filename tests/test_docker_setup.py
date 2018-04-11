@@ -3,15 +3,15 @@ import os
 import sys
 import platform
 
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
-
 
 class TestDockerSetup():
+    """Class to test Docker setup."""
+
     def get_expected_python_version(self):
         """Read expected Python version from Dockerfile.
-        
+
         The first line of the Dockerfile gives the expected Python version in the
-        form `FROM python:3.6.4`. This function pulls this information and 
+        form `FROM python:3.6.4`. This function pulls this information and
         reformats to match the output from `$ python --version`.
         """
         with open('Dockerfile', 'rt') as f:
@@ -45,7 +45,7 @@ class TestDockerSetup():
 
     def test_docker_packages(self, capfd):
         """Fail if container's pip packages don't match requirements.txt.
-        
+
         The full set of packages listed within the container with `$ pip freeze`
         is the superset of the packages listed in the requirements.txt file
         since some packages installed from the `requirements.txt` file require
