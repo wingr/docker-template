@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -e
+
+# If container ID provided, use that ID
+if [[ -n $1 ]]; then
+    docker logs $1;
+else
+    # Look for a running container and show those logs (shows most recent)
+    CONTAINER_ID=$(docker ps | sed -n '2p' | awk '{print$1}'); 
+    if [[ -n $CONTAINER_ID ]]; then
+        docker logs $CONTAINER_ID;
+    else
+        # If no running containers are found, show logs of most recent stopped container
+        CONTAINER_ID=$(docker ps --filter "status=exited" | sed -n '2p' | awk '{print$1}'); 
+        docker logs $CONTAINER_ID;
+    fi
+fi

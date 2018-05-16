@@ -25,6 +25,10 @@ No changes needed
 #### script/test
 * Change the `/src` to your top-level project directory (line 8)
 
+#### script/view-docker-logs
+* No changes needed
+* This script prints logs for the latest running docker container, or stopped container if none are currently running, or for a given container id.
+
 #### src/ files
 * This directory is where your application goes. It can be named differently and you should change the example stub file in this directory.
 
