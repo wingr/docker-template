@@ -9,7 +9,7 @@ The changes below assume that you are dockerizing an entire repository. However,
 * In the Dockerfile, change `src/` to top-level project directory
 
 #### script/app-env
-* Change `DOCKER_IMAGE` name to match your repo name (line 10)
+* Change `DOCKER_IMAGE` name to match your repo name, or the name of the containing directory (line 10)
 * Change `appdir:/src` to `appdir:/your-top-dir` (line 12)
 
 #### script/bootstrap
