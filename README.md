@@ -7,10 +7,21 @@ The changes below assume that you are dockerizing an entire repository. However,
 #### Dockerfile
 * Check the version of Python at the top
 * In the Dockerfile, change `src/` to top-level project directory
+* To work with Tensorflow on a GPU instance, change the top line to `FROM tensorflow/tensorflow:latest-gpu-py3`
 
 #### script/app-env
 * Change `DOCKER_IMAGE` name to match your repo name, or the name of the containing directory (line 10)
 * Change `appdir:/src` to `appdir:/your-top-dir` (line 12)
+* To run with GPU (see change to Dockerfile also), you will need to change the last line to use nvidia, like `exec docker run --runtime=nvidia -i -t -v "$appdir:/src" $image $cmd`
+* You can also use environment variables like below (assumes they are stored in the `script/` directory in a `.env` file),
+    ```
+    if [ ! -f script/.env ]; then
+        echo "Environment variables file (script/.env) not found!"
+        exec docker run --runtime=nvidia -i -t -v "$appdir:/src" $image $cmd
+    else
+        exec docker run --runtime=nvidia --env-file="script/.env" -i -t -v "$appdir:/src" $image $cmd
+    fi
+    ```
 
 #### script/bootstrap
 * Change the final name to your repo name - make sure to leave a space between the repo name and the final period (line 7)
@@ -21,6 +32,11 @@ No changes needed
 #### script/run
 * Change the structure of this file to call your actual application.
 * The path insertion on line 7 allows you to import your modules from the `src/` directory (or whatever you end up calling it).
+
+#### script/server
+This file is used to run a GPU-powered jupyter notebook on a GPU instance. It will not work unless you have nvidia installed.
+* Change the directory structure for the volume mount, `-v`, to match your project. The first directory path is the path on the local (or instance) machine and the path after the colon is the directory in the container. I would recommend using the `$(pwd)` to get the full directory path to the directory that contains your project (e.g. the Dockerfile). Also, you will notice a double `/src/src/` in the second directory path. The first `/src` is the directory we mapped in the Dockerfile for our working directory and the second `src/` is a directory in this specific project setup which contains our files. This second `/src/` may change dependind on how you have the project set up.
+* Change the last part of the last line to match your repository name or the containing directory for your project.
 
 #### script/test
 * Change the `/src` to your top-level project directory (line 8)
