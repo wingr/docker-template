@@ -11,7 +11,7 @@ The changes below assume that you are dockerizing an entire repository. However,
 
 #### script/app-env
 * Change `DOCKER_IMAGE` name to match your repo name, or the name of the containing directory (line 10)
-* Change `appdir:/src` to `appdir:/your-top-dir` (line 12)
+* Change `appdir:/src` to `appdir:/your-top-dir` (lines 14 & 16)
 * To run with GPU (see change to Dockerfile also), you will need to change the last line to use nvidia, like `exec docker run --runtime=nvidia -i -t -v "$appdir:/src" $image $cmd`
 * You can also use environment variables like below (assumes they are stored in the `script/` directory in a `.env` file),
     ```
@@ -54,8 +54,9 @@ This file is used to run a GPU-powered jupyter notebook on a GPU instance. It wi
 
 ## Setup
 1. Clone repository
-2. To create the Docker container, run `script/bootstrap`
-3. Test that the container is setup correctly by running , `script/app-env pytest tests/test_docker_setup.py`
+2. Create a `.env` file within the `script/` directory (can do `touch script/.env` for an empty file)
+3. To create the Docker container, run `script/bootstrap`
+4. Test that the container is setup correctly by running , `script/test`
 
 ## Running applications
 * The design of this setup is to allow for CLI by using the `script/run` file as the entry point into the application. Given this setup, to run you call,
