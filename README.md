@@ -10,8 +10,8 @@ The changes below assume that you are dockerizing an entire repository. However,
 * To work with Tensorflow on a GPU instance, change the top line to `FROM tensorflow/tensorflow:latest-gpu-py3`
 
 #### script/app-env
-* Change `DOCKER_IMAGE` name to match your repo name, or the name of the containing directory (line 10)
-* Change `appdir:/src` to `appdir:/your-top-dir` (lines 14 & 16)
+* (OPTIONAL) Change `DOCKER_IMAGE` name if you want (line 11). By default it is given the name of the directory containing the `Dockerfile`
+* Change `appdir:/src` to `appdir:/your-top-dir` (lines 15 & 17)
 * To run with GPU (see change to Dockerfile also), you will need to change the last line to use nvidia, like `exec docker run --runtime=nvidia -i -t -v "$appdir:/src" $image $cmd`
 * You can also use environment variables like below (assumes they are stored in the `script/` directory in a `.env` file),
     ```
@@ -24,7 +24,7 @@ The changes below assume that you are dockerizing an entire repository. However,
     ```
 
 #### script/bootstrap
-* Change the final name to your repo name - make sure to leave a space between the repo name and the final period (line 7)
+* (OPTIONAL) Change the image name if you want (line 8). If you do, make sure to leave a space between the image name and the final period. By default the name of the directory containing the `Dockerfile` is used.
 
 #### script/cibuild-verify-image
 No changes needed

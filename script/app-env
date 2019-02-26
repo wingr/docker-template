@@ -3,11 +3,12 @@
 
 set -e
 
+imagename=$(basename $PWD)
 appdir=$(cd $(dirname "$0")/.. && pwd)
 [ -f /etc/inside-container ] && exec "$@"
 
 cmd="$@"; [ "$#" -eq 0 ] && cmd=bash
-image=${DOCKER_IMAGE:=docker-template}
+image=${DOCKER_IMAGE:=$imagename}
 
 if [ ! -f script/.env ]; then
     echo "Environment variables file (script/.env) not found!"
