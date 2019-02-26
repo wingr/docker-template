@@ -3,5 +3,6 @@
 set -e
 
 appdir=$(cd $(dirname "$0")/.. && pwd)
+imagename=$(basename $PWD)
 
-cd "$appdir" && docker build -t docker-template .
+cd "$appdir" && docker build -t $imagename .
