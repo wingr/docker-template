@@ -5,33 +5,25 @@ A base project setup template for using Docker for a Python project.
 The changes below assume that you are dockerizing an entire repository. However, if you only want to dockerize a single directory within the repository, all the directions stay the same, but the "_repo name_" would be replaced by the name of the directory in which the `Dockerfile` lives.
 
 #### Dockerfile
-* Check the version of Python at the top
+* Check the version of Python at the top - this may need to be updated
 * In the Dockerfile, change `src/` to top-level project directory
 * To work with Tensorflow on a GPU instance, change the top line to `FROM tensorflow/tensorflow:latest-gpu-py3`
 
 #### script/app-env
-* (OPTIONAL) Change `DOCKER_IMAGE` name if you want (line 11). By default it is given the name of the directory containing the `Dockerfile`
-* Change `appdir:/src` to `appdir:/your-top-dir` (lines 15 & 17)
+* (OPTIONAL) Change `DOCKER_IMAGE` name if you want (line 12). By default it is given the name of the directory containing the `Dockerfile`
+* Change `appdir:/src` to `appdir:/your-top-dir` (lines 19 & 21)
 * To run with GPU (see change to Dockerfile also), you will need to change the last line to use nvidia, like `exec docker run --runtime=nvidia -i -t -v "$appdir:/src" $image $cmd`
-* You can also use environment variables like below (assumes they are stored in the `script/` directory in a `.env` file),
-    ```
-    if [ ! -f script/.env ]; then
-        echo "Environment variables file (script/.env) not found!"
-        exec docker run --runtime=nvidia -i -t -v "$appdir:/src" $image $cmd
-    else
-        exec docker run --runtime=nvidia --env-file="script/.env" -i -t -v "$appdir:/src" $image $cmd
-    fi
-    ```
+* You can also use environment variables for to create the `imagename` or other fields (assumes they are stored in the `script/` directory in a `.env` file),
 
 #### script/bootstrap
-* (OPTIONAL) Change the image name if you want (line 8). If you do, make sure to leave a space between the image name and the final period. By default the name of the directory containing the `Dockerfile` is used.
+* (OPTIONAL) Change the image name if you want (line 9). If you do, make sure to leave a space between the image name and the final period. By default the name of the directory containing the `Dockerfile` is used.
 
 #### script/cibuild-verify-image
 No changes needed
 
 #### script/run
 * Change the structure of this file to call your actual application.
-* The path insertion on line 7 allows you to import your modules from the `src/` directory (or whatever you end up calling it).
+* The path insertion on line 19 allows you to import your modules from the `src/` directory (or whatever you end up calling it).
 
 #### script/server
 This file is used to run a GPU-powered jupyter notebook on a GPU instance. It will not work unless you have nvidia installed.
@@ -43,10 +35,10 @@ This file is used to run a GPU-powered jupyter notebook on a GPU instance. It wi
 
 #### script/view-docker-logs
 * No changes needed
-* This script prints logs for the latest running docker container, or stopped container if none are currently running, or for a given container id.
+* This script prints logs for the latest running docker container, or stopped container if none are currently running, or for a given container id passed as a command line argument.
 
 #### src/ files
-* This directory is where your application goes. It can be named differently and you should change the example stub file in this directory.
+* This directory is where your application goes. It can be named differently, but then you should change the references in the scripts above.
 
 #### Other
 * Load `requirements.txt` with what you need
@@ -67,4 +59,4 @@ This file is used to run a GPU-powered jupyter notebook on a GPU instance. It wi
     * `$ script/app-env python some_other_module.py --infile "myfile.txt"` (to run a different Python module)
     * `$ script/app-env python` (to get into the Python shell within the container)
 
-* There is an issue with passing multiple word command line arguments to Docker with this setup even if they are in quotes, just FYI.
+* There is an issue with passing multiple-word command line arguments to Docker with this setup even if they are in quotes, just FYI.
