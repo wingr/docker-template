@@ -3,6 +3,9 @@
 set -e
 
 appdir=$(cd $(dirname "$0")/.. && pwd)
+envfile="$appdir/script/.env"
+
+. $envfile
 imagename=$(basename $PWD)
 
-cd "$appdir" && docker build -t $imagename .
+cd "$appdir" && docker build -f Dockerfile -t $imagename .

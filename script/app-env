@@ -3,9 +3,13 @@
 
 set -e
 
-imagename=$(basename $PWD)
-appdir=$(cd $(dirname "$0")/.. && pwd)
 [ -f /etc/inside-container ] && exec "$@"
+
+appdir=$(cd $(dirname "$0")/.. && pwd)
+envfile="$appdir/script/.env"
+
+. $envfile
+imagename=$(basename $PWD)
 
 cmd="$@"; [ "$#" -eq 0 ] && cmd=bash
 image=${DOCKER_IMAGE:=$imagename}
