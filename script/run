@@ -23,6 +23,6 @@ from tests.test_docker_setup import TestDockerSetup
 def run_test_python_class():
     ex_model = TestDockerSetup()
     expected_python = ex_model.get_expected_python_version()
-    print('Inside Docker using {}'.format(expected_python))
+    print('Docker running successfully using {}'.format(expected_python))
 
 run_test_python_class()
