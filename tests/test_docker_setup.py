@@ -1,7 +1,7 @@
 """Test Docker container setup."""
 import os
-import sys
 import platform
+import sys
 
 
 class TestDockerSetup():
@@ -11,7 +11,7 @@ class TestDockerSetup():
         """Read expected Python version from Dockerfile.
 
         The first line of the Dockerfile gives the expected Python version in the
-        form `FROM python:3.6.4`. This function pulls this information and
+        form `FROM python:3.9.6`. This function pulls this information and
         reformats to match the output from `$ python --version`.
         """
         with open('Dockerfile', 'rt') as f:
@@ -58,3 +58,4 @@ class TestDockerSetup():
         container_pip_packages_ls = [elem.lower() for elem in out.split('\n')]
         for package in expected_pip_packages_ls:
             assert package in container_pip_packages_ls
+

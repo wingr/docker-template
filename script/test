@@ -1,10 +1,36 @@
 #!/bin/sh
 
+# Run tests inside the Docker container.
+#
+# The test container can be run without specifying an image name in which case it is run with
+# the default image name, which is the name of the top-level directory. It can also be run
+# run with a specified image name.
+#
+# Usage:
+#   Run tests with the default image name:
+#       ./script/test
+#
+#   Run with a specified image name:
+#       ./script/test -i <image_name>
+#       Example: ./script/test -i test-image
+#
+# For optional environmental variables, put them in the script/.env file
+
 set -e
 
+while getopts "i:" flag; do
+case "$flag" in
+    i) IMAGENAME=$OPTARG;;
+esac
+done
+
 appdir=$(cd $(dirname "$0")/.. && pwd)
-[ -f /etc/inside-container  ] || exec "$appdir/script/app-env" $0 $@
+default_imagename=$(basename $PWD)
+imagename=${IMAGENAME-$default_imagename}
+
+[ -f /etc/inside-container  ] || exec $appdir/script/app-env -i $imagename $0 $@
 
 export PYTHONPATH="${appdir}/src:$PYTHONPATH"
 
 pytest --durations=5 --disable-warnings -v tests
+

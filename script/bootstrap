@@ -1,11 +1,39 @@
 #!/bin/sh
 
+# Build a Docker image for the project.
+#
+# The image can be built without specifying an image name in which case it is run with the
+# default image name, which is the name of the top-level directory. It can also be built
+# and run with a specified image name.
+#
+# Usage:
+#   Build image with the default image name:
+#       ./script/bootstrap
+#
+#   Build image with a specified image name:
+#       ./script/bootstrap -i <image_name>
+#       Example: ./script/bootstrap -i test-image
+#
+# For optional environmental variables, put them in a script/.env file
+
 set -e
 
-appdir=$(cd $(dirname "$0")/.. && pwd)
-envfile="$appdir/script/.env"
+while getopts "i:" flag; do
+case "$flag" in
+    i) IMAGENAME=$OPTARG;;
+esac
+done
 
-. $envfile
-imagename=$(basename $PWD)
+appdir=$(cd $(dirname "$0")/.. && pwd)
+default_imagename=$(basename $PWD)
+imagename=${IMAGENAME-$default_imagename}
+
+if [ -f script/.env ]; then
+    envfile="$appdir/script/.env"
+    . $envfile
+else
+    echo "Building container without script/.env file"
+fi
 
 cd "$appdir" && docker build -f Dockerfile -t $imagename .
+
