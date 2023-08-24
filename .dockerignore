@@ -1,8 +1,9 @@
+.cache
 .dockerignore
 .git
 .gitignore
 .python-version
-.cache
+.pytest_cache
+__pycache__
 Dockerfile
 README.md
-__pycache__

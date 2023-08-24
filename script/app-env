@@ -1,22 +1,55 @@
 #!/bin/sh
-# Run a command in the app's development environment.
+
+# Run a command in the app's Docker container.
+#
+# The container can be run without specifying an image name in which case it is run with the
+# default image name, which is the name of the top-level directory. It can also be built
+# and run with a specified image name.
+#
+# Note: The Docker image must have been built using ./script/bootstrap and must have the same
+#       image name that is used here.
+#
+# Usage:
+#   Run with the default image name:
+#       ./script/app-env <command>
+#       Example 1: ./script/app-env script/run <command line arguments>
+#       Example 2: ./script/app-env bash
+#
+#   Run with a specified image name:
+#       ./script/app-env -i <image_name> <command>
+#       Example 1: ./script/app-env -i test-image script/run <command line arguments>
+#
+# The `script/app-env` part puts you into the Docker container's environment,
+# The `script/run` or the `bash` part is the script to run or `bash` to enter command line
+# For optional environmental variables, put them in a script/.env file
 
 set -e
 
-[ -f /etc/inside-container ] && exec "$@"
+while getopts "i:" flag; do
+case "$flag" in
+    i) IMAGENAME=$OPTARG;;
+esac
+done
+
+[ -f /etc/inside-container ] && exec "${@:$OPTIND:1}"
 
 appdir=$(cd $(dirname "$0")/.. && pwd)
-envfile="$appdir/script/.env"
+default_imagename=$(basename $PWD)
+imagename=${IMAGENAME-$default_imagename}
 
-. $envfile
-imagename=$(basename $PWD)
+if [ -f script/.env ]; then
+    envfile="$appdir/script/.env"
+    . $envfile
+fi
 
-cmd="$@"; [ "$#" -eq 0 ] && cmd=bash
+cmd="${@:$OPTIND:1}"; [ "$#" -eq 0 ] && cmd=bash
 image=${DOCKER_IMAGE:=$imagename}
 
 if [ ! -f script/.env ]; then
-    echo "Environment variables file (script/.env) not found!"
+    echo "Running without environment variables file (script/.env)"
     exec docker run -i -t -v "$appdir:/src" $image $cmd
 else
+    echo "Running with environment variables file (script/.env)"
     exec docker run --env-file="script/.env" -i -t -v "$appdir:/src" $image $cmd
 fi
+
