@@ -8,5 +8,5 @@
 appdir=$(cd $(dirname "$0")/.. && pwd)
 export PYTHONPATH="${appdir}/src:$PYTHONPATH"
 
-pytest --durations=5 --disable-warnings --ignore test_docker_setup.py -v tests
+pytest --durations=5 --disable-warnings --ignore tests/test_docker_setup.py -v tests
 
