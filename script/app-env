@@ -13,14 +13,14 @@
 #   Run with the default image name:
 #       ./script/app-env <command>
 #       Example 1: ./script/app-env script/run <command line arguments>
-#       Example 2: ./script/app-env bash
+#       Example 2: ./script/app-env (with no arguments, it starts in bash)
 #
 #   Run with a specified image name:
 #       ./script/app-env -i <image_name> <command>
 #       Example 1: ./script/app-env -i test-image script/run <command line arguments>
 #
 # The `script/app-env` part puts you into the Docker container's environment,
-# The `script/run` or the `bash` part is the script to run or `bash` to enter command line
+# The `script/run` is the script to run (with no arguments `bash` will be run to enter command line)
 # For optional environmental variables, put them in a script/.env file
 
 set -e
@@ -31,7 +31,7 @@ case "$flag" in
 esac
 done
 
-[ -f /etc/inside-container ] && exec "${@:$OPTIND:1}"
+[ -f /etc/inside-container ] && exec "${@:$OPTIND}"
 
 appdir=$(cd $(dirname "$0")/.. && pwd)
 default_imagename=$(basename $PWD)
@@ -42,7 +42,7 @@ if [ -f script/.env ]; then
     . $envfile
 fi
 
-cmd="${@:$OPTIND:1}"; [ "$#" -eq 0 ] && cmd=bash
+cmd="${@:$OPTIND}"; [ "$#" -eq 0 ] && cmd=bash
 image=${DOCKER_IMAGE:=$imagename}
 
 if [ ! -f script/.env ]; then
